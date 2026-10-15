@@ -23,6 +23,29 @@
   $$('.menu nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
   addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
+  /* hero slider */
+  const sl = $$('.slider .slide'), dots = $$('.dots button');
+  if (sl.length > 1) {
+    let k = 0, t;
+    const go = i => {
+      sl[k].classList.remove('on'); dots[k].classList.remove('on');
+      k = (i + sl.length) % sl.length;
+      sl[k].classList.add('on'); dots[k].classList.add('on');
+      clearTimeout(t); t = setTimeout(() => go(k + 1), 4500);
+    };
+    dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+    let sx = null;
+    const box = $('.slider');
+    box.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+    box.addEventListener('touchend', e => {
+      if (sx === null) return;
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 40) go(k + (dx < 0 ? 1 : -1));
+      sx = null;
+    });
+    t = setTimeout(() => go(1), 4500);
+  }
+
   /* galleries: show more */
   $$('.gal').forEach(g => {
     const btn = $('.more-btn', g.parentElement);
