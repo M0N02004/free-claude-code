@@ -1,0 +1,9 @@
+{
+  // Cloudflare Workers config for the Ruqi static site
+  "name": "ruqi-events",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./ruqi-website",
+    "not_found_handling": "404-page"
+  }
+}
